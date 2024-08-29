@@ -1,14 +1,9 @@
+alert("Code Loaded");
 const frame1Animations = [
             { rotation: 0, x: 0, y: 0 },
             { rotation: 90, x: 404, y: 349 },
             { rotation: 180, x: 0, y: 698 },
             { rotation: 270, x: -404, y: 349 }
-        ];
-        const frame1MobileAnimations = [
-            { rotation: 0, x: 0, y: 0 },
-            { rotation: 90, x: 250, y: 255 },
-            { rotation: 180, x: 0, y: 510 },
-            { rotation: 270, x: -250, y: 255 }
         ];
 
         const frame2Animations = [
@@ -17,12 +12,6 @@ const frame1Animations = [
             { rotation: 180, x: -808, y: 0 },
             { rotation: 270, x: -404, y: -349 }
         ];
-        const frame2MobileAnimations = [
-            { rotation: 0, x: 0, y: 0 },
-            { rotation: 90, x: -250, y: 255 },
-            { rotation: 180, x: -500, y: 0 },
-            { rotation: 270, x: -250, y: -255 }
-        ];
 
         const frame3Animations = [
             { rotation: 0, x: 0, y: 0 },
@@ -30,24 +19,12 @@ const frame1Animations = [
             { rotation: 180, x: 0, y: -698 },
             { rotation: 270, x: 404, y: -349 }
         ];
-        const frame3MobileAnimations = [
-            { rotation: 0, x: 0, y: 0 },
-            { rotation: 90, x: -250, y: -255 },
-            { rotation: 180, x: 0, y: -510 },
-            { rotation: 270, x: 250, y: -255 }
-        ];
 
         const frame4Animations = [
             { rotation: 0, x: 0, y: 0 },
             { rotation: 90, x: 404, y: -349 },
             { rotation: 180, x: 808, y: 0 },
             { rotation: 270, x: 404, y: 349 }
-        ];
-        const frame4MobileAnimations = [
-            { rotation: 0, x: 0, y: 0 },
-            { rotation: 90, x: 250, y: -255 },
-            { rotation: 180, x: 500, y: 0 },
-            { rotation: 270, x: 250, y: 255 }
         ];
 
         var observer = new IntersectionObserver(onIntersection, {
@@ -102,18 +79,10 @@ const frame1Animations = [
             }
             if(scrollLocked){
                 console.log(circularityVariant);
-                if(window.innerWidth <= 768){
-                    gsap.to("#frame1", {...frame1MobileAnimations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
-                    gsap.to("#frame2", {...frame2MobileAnimations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
-                    gsap.to("#frame3", {...frame3MobileAnimations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
-                    gsap.to("#frame4", {...frame4MobileAnimations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
-                }else{
-                    gsap.to("#frame1", {...frame1Animations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
-                    gsap.to("#frame2", {...frame2Animations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
-                    gsap.to("#frame3", {...frame3Animations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
-                    gsap.to("#frame4", {...frame4Animations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
-                }
-                
+                gsap.to("#frame1", {...frame1Animations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
+                gsap.to("#frame2", {...frame2Animations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
+                gsap.to("#frame3", {...frame3Animations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
+                gsap.to("#frame4", {...frame4Animations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
             }
         });
         function onIntersection(entries, opts) {
