@@ -51,7 +51,7 @@ const frame4MobileAnimations = [
 
 var observer = new IntersectionObserver(onIntersection, {
     root: null,   // default is the viewport
-    threshold: 0.5 // Triggers when 100% of the target is visible
+    threshold: 0.7 // Triggers when 100% of the target is visible
 });
 const circSection = document.querySelector('#circ-process');
 
