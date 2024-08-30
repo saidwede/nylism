@@ -1,4 +1,3 @@
-alert("Code Loaded");
 const frame1Animations = [
             { rotation: 0, x: 0, y: 0 },
             { rotation: 90, x: 404, y: 349 },
@@ -29,17 +28,16 @@ const frame1Animations = [
 
         var observer = new IntersectionObserver(onIntersection, {
             root: null,   // default is the viewport
-            threshold: 0.9 // Triggers when 100% of the target is visible
+            threshold: 0.5 // Triggers when 100% of the target is visible
         });
-        const section = document.querySelector('#circ-process');
-        section.classList.add('circ-process');
+        const circSection = document.querySelector('#circ-process');
 
         var circularityVariant = 1;
         var scrollLocked = false;
         var scrollTimeout; 
         var newScrollDetectable = true;
 
-        observer.observe(section);
+        observer.observe(circSection);
 
         window.addEventListener("scroll", function() {
             let lastScrollTop = getSectionTopOffset();
@@ -85,11 +83,13 @@ const frame1Animations = [
                 gsap.to("#frame4", {...frame4Animations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
             }
         });
+
         function onIntersection(entries, opts) {
             entries.forEach(entry => {
+                console.log("Fire")
                 if (entry.isIntersecting) {
                     console.log("Inrtersection:", getSectionTopOffset())
-                    section.scrollIntoView({
+                    circSection.scrollIntoView({
                         behavior: 'smooth',  // Optional: for smooth scrolling
                         block: 'start'       // Aligns the section to the top of the viewport
                     });
@@ -98,19 +98,13 @@ const frame1Animations = [
                         newScrollDetectable = true;
                     }, 2000);
                     scrollLocked = true;
-                    
                 }
             });
         }
-
         function getSectionTopOffset() {
-            const section = document.querySelector('#circ-process');
-            
             // Get the section's top position relative to the viewport
-            const sectionTop = section.getBoundingClientRect().top;
-            
+            const sectionTop = circSection.getBoundingClientRect().top;
             // Add the current scroll position to get the section's top relative to the document
             const sectionTopOffset = sectionTop + window.pageYOffset;
-
             return sectionTopOffset;
         }
