@@ -67,10 +67,7 @@ window.addEventListener("scroll", function() {
     let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
     let scrollDown = currentScroll > lastScrollTop
     let scrollUp = currentScroll < lastScrollTop
-
-    // if(scrollLocked ){
-    //     window.scrollTo(0, lastScrollTop);
-    // }
+    
     // Prevent scrolling up
     
     if(scrollLocked){
@@ -96,11 +93,15 @@ window.addEventListener("scroll", function() {
             }
             console.log("Slide...")
         }
-        window.scrollTo(0, lastScrollTop);
+        window.scrollTo({
+            top: lastScrollTop,  // The vertical scroll position to move to
+            left: 0,             // The horizontal scroll position (you can change this if needed)
+            behavior: 'smooth'   // Smooth scrolling behavior
+        });
     }
     if(scrollLocked){
         console.log(circularityVariant);
-                if(window.innerWidth <= 768){
+            if(window.innerWidth <= 809){
                 gsap.to("#frame1", {...frame1MobileAnimations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
                 gsap.to("#frame2", {...frame2MobileAnimations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
                 gsap.to("#frame3", {...frame3MobileAnimations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
