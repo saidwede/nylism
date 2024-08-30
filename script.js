@@ -51,9 +51,9 @@ const frame4MobileAnimations = [
 
 const textAnimations = [
     {y: 0},
-    {y: -250},
-    {y: -590},
-    {y: -762}
+    {y: -194},
+    {y: -450},
+    {y: -765}
 ];
 const textMobileAnimations = [
     {y: 0},
