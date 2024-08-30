@@ -49,6 +49,20 @@ const frame4MobileAnimations = [
     { rotation: 270, x: 250, y: 255 }
 ];
 
+const textAnimations = [
+    {y: 0},
+    {y: 254},
+    {y: 508},
+    {y: 762}
+];
+const textMobileAnimations = [
+    {y: 0},
+    {y: 254},
+    {y: 508},
+    {y: 762}
+];
+
+
 var observer = new IntersectionObserver(onIntersection, {
     root: null,   // default is the viewport
     threshold: 0.7 // Triggers when 100% of the target is visible
@@ -100,11 +114,13 @@ window.addEventListener("scroll", function() {
                 gsap.to("#frame2", {...frame2MobileAnimations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
                 gsap.to("#frame3", {...frame3MobileAnimations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
                 gsap.to("#frame4", {...frame4MobileAnimations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
+                gsap.to("#circ-text-container", {...textMobileAnimations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"})
             }else{
                 gsap.to("#frame1", {...frame1Animations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
                 gsap.to("#frame2", {...frame2Animations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
                 gsap.to("#frame3", {...frame3Animations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
                 gsap.to("#frame4", {...frame4Animations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
+                gsap.to("#circ-text-container", {...textAnimations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"})
             }
     }
 });
