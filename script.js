@@ -96,7 +96,7 @@ window.addEventListener("scroll", function() {
             clearTimeout(scrollTimeout);
             scrollTimeout = setTimeout(() => {
                 newScrollDetectable = true;
-            }, 2000);
+            }, 1000);
             if (scrollUp && circularityVariant > 1) {
                 console.log("Decrementation")
                 circularityVariant--;
@@ -110,17 +110,17 @@ window.addEventListener("scroll", function() {
     if(scrollLocked){
         console.log(circularityVariant);
             if(window.innerWidth <= 809){
-                gsap.to("#frame1", {...frame1MobileAnimations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
-                gsap.to("#frame2", {...frame2MobileAnimations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
-                gsap.to("#frame3", {...frame3MobileAnimations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
-                gsap.to("#frame4", {...frame4MobileAnimations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
-                gsap.to("#circ-text-container", {...textMobileAnimations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"})
+                gsap.to("#frame1", {...frame1MobileAnimations[circularityVariant-1], duration: 1,  ease: "power1.inOut"});
+                gsap.to("#frame2", {...frame2MobileAnimations[circularityVariant-1], duration: 1,  ease: "power1.inOut"});
+                gsap.to("#frame3", {...frame3MobileAnimations[circularityVariant-1], duration: 1,  ease: "power1.inOut"});
+                gsap.to("#frame4", {...frame4MobileAnimations[circularityVariant-1], duration: 1,  ease: "power1.inOut"});
+                gsap.to("#circ-text-container", {...textMobileAnimations[circularityVariant-1], duration: 1,  ease: "power1.inOut"})
             }else{
-                gsap.to("#frame1", {...frame1Animations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
-                gsap.to("#frame2", {...frame2Animations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
-                gsap.to("#frame3", {...frame3Animations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
-                gsap.to("#frame4", {...frame4Animations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"});
-                gsap.to("#circ-text-container", {...textAnimations[circularityVariant-1], duration: 0.5,  ease: "power1.inOut"})
+                gsap.to("#frame1", {...frame1Animations[circularityVariant-1], duration: 1,  ease: "power1.inOut"});
+                gsap.to("#frame2", {...frame2Animations[circularityVariant-1], duration: 1,  ease: "power1.inOut"});
+                gsap.to("#frame3", {...frame3Animations[circularityVariant-1], duration: 1,  ease: "power1.inOut"});
+                gsap.to("#frame4", {...frame4Animations[circularityVariant-1], duration: 1,  ease: "power1.inOut"});
+                gsap.to("#circ-text-container", {...textAnimations[circularityVariant-1], duration: 1,  ease: "power1.inOut"})
             }
     }
 });
@@ -137,7 +137,7 @@ function onIntersection(entries, opts) {
             newScrollDetectable = false;
             scrollTimeout = setTimeout(() => {
                 newScrollDetectable = true;
-            }, 2000);
+            }, 1000);
             scrollLocked = true;
         }
     });
