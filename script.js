@@ -51,7 +51,7 @@ const frame4MobileAnimations = [
 
 var observer = new IntersectionObserver(onIntersection, {
     root: null,   // default is the viewport
-    threshold: 0.5 // Triggers when 100% of the target is visible
+    threshold: 0.9 // Triggers when 100% of the target is visible
 });
 const circSection = document.querySelector('#circ-process');
 
@@ -67,8 +67,6 @@ window.addEventListener("scroll", function() {
     let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
     let scrollDown = currentScroll > lastScrollTop
     let scrollUp = currentScroll < lastScrollTop
-    
-    // Prevent scrolling up
     
     if(scrollLocked){
         if(newScrollDetectable && ( scrollDown && circularityVariant >= 4 || scrollUp && circularityVariant <= 1)){
@@ -93,11 +91,7 @@ window.addEventListener("scroll", function() {
             }
             console.log("Slide...")
         }
-        window.scrollTo({
-            top: lastScrollTop,  // The vertical scroll position to move to
-            left: 0,             // The horizontal scroll position (you can change this if needed)
-            behavior: 'smooth'   // Smooth scrolling behavior
-        });
+        window.scrollTo(0, lastScrollTop);
     }
     if(scrollLocked){
         console.log(circularityVariant);
