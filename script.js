@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             // console.log("Down", deltaY) 
         },
     });
-    // myObserver.disable(); 
+    myObserver.disable(); 
 
     ScrollTrigger.create({
         trigger: "#circ-process",
