@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     const myObserver = Observer.create({
         target: window, // can be any element (selector text is fine)
-        type: "wheel,touch, pointer, scroll", // comma-delimited list of what to listen for ("wheel,touch,scroll,pointer")
+        type: "wheel, touch, pointer, scroll", // comma-delimited list of what to listen for ("wheel,touch,scroll,pointer")
         wheelSpeed: -1,
         tolerance: 100,
         preventDefault: true,
@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             // console.log("Down", deltaY) 
         },
     });
-    myObserver.disable(); 
+    // myObserver.disable(); 
 
     ScrollTrigger.create({
         trigger: "#circ-process",
