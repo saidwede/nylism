@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     const myObserver = Observer.create({
         target: window, // can be any element (selector text is fine)
-        type: "wheel,touch, pointer", // comma-delimited list of what to listen for ("wheel,touch,scroll,pointer")
+        type: "scroll", // comma-delimited list of what to listen for ("wheel,touch,scroll,pointer")
         wheelSpeed: -1,
         tolerance: 10,
         debounce: false,
