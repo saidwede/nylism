@@ -1,3 +1,6 @@
+let circularityVariant = 1;
+let animating = false;
+
 const frame1Animations = [
     { rotation: 0, x: 0, y: 0 },
     { rotation: 90, x: 404, y: 349 },
@@ -62,90 +65,107 @@ const textMobileAnimations = [
     {y: -762}
 ];
 
+document.addEventListener("DOMContentLoaded", (event) => {
+    gsap.registerPlugin(ScrollTrigger,Observer)
 
-var observer = new IntersectionObserver(onIntersection, {
-    root: null,   // default is the viewport
-    threshold: 0.7 // Triggers when 100% of the target is visible
-});
-const circSection = document.querySelector('#circ-process');
-
-var circularityVariant = 1;
-var scrollLocked = false;
-var scrollTimeout; 
-var newScrollDetectable = true;
-
-observer.observe(circSection);
-
-window.addEventListener("scroll", function() {
-    let lastScrollTop = getSectionTopOffset();
-    let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-    let scrollDown = currentScroll > lastScrollTop
-    let scrollUp = currentScroll < lastScrollTop
-    
-    if(scrollLocked){
-        if(newScrollDetectable && ( scrollDown && circularityVariant >= 4 || scrollUp && circularityVariant <= 1)){
-            scrollLocked = false
-            console.log("Unlock!");
-            console.log("circularityVariant:", circularityVariant)
-            console.log("scrollDown", scrollDown)
-            console.log("scrollUp", scrollUp)
-            return
-        }
-        if(newScrollDetectable){
-            newScrollDetectable = false;
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(() => {
-                newScrollDetectable = true;
-            }, 1000);
-            if (scrollUp && circularityVariant > 1) {
-                console.log("Decrementation")
-                circularityVariant--;
-            }else if (scrollDown && circularityVariant < 4){
-                circularityVariant++;
+    const myObserver = Observer.create({
+        target: window, // can be any element (selector text is fine)
+        type: "wheel,touch, pointer", // comma-delimited list of what to listen for ("wheel,touch,scroll,pointer")
+        wheelSpeed: -1,
+        tolerance: 10,
+        debounce: false,
+        preventDefault: true,
+        onUp: ({deltaY}) => { 
+            if(!animating){
+                showNextVariant();
             }
-            console.log("Slide...")
-        }
-        window.scrollTo(0, lastScrollTop);
-    }
-    if(scrollLocked){
-        console.log(circularityVariant);
-            if(window.innerWidth <= 809){
-                gsap.to("#frame1", {...frame1MobileAnimations[circularityVariant-1], duration: 1,  ease: "power1.inOut"});
-                gsap.to("#frame2", {...frame2MobileAnimations[circularityVariant-1], duration: 1,  ease: "power1.inOut"});
-                gsap.to("#frame3", {...frame3MobileAnimations[circularityVariant-1], duration: 1,  ease: "power1.inOut"});
-                gsap.to("#frame4", {...frame4MobileAnimations[circularityVariant-1], duration: 1,  ease: "power1.inOut"});
-                gsap.to("#circ-text-container", {...textMobileAnimations[circularityVariant-1], duration: 1,  ease: "power1.inOut"})
-            }else{
-                gsap.to("#frame1", {...frame1Animations[circularityVariant-1], duration: 1,  ease: "power1.inOut"});
-                gsap.to("#frame2", {...frame2Animations[circularityVariant-1], duration: 1,  ease: "power1.inOut"});
-                gsap.to("#frame3", {...frame3Animations[circularityVariant-1], duration: 1,  ease: "power1.inOut"});
-                gsap.to("#frame4", {...frame4Animations[circularityVariant-1], duration: 1,  ease: "power1.inOut"});
-                gsap.to("#circ-text-container", {...textAnimations[circularityVariant-1], duration: 1,  ease: "power1.inOut"})
+            // console.log("Up", deltaY) 
+        },
+        onDown: ({deltaY}) => { 
+            if(!animating){
+                showPreviousVariant()
             }
-    }
-});
-
-function onIntersection(entries, opts) {
-    entries.forEach(entry => {
-        console.log("Fire")
-        if (entry.isIntersecting) {
-            console.log("Inrtersection:", getSectionTopOffset())
-            circSection.scrollIntoView({
-                behavior: 'smooth',  // Optional: for smooth scrolling
-                block: 'start'       // Aligns the section to the top of the viewport
-            });
-            newScrollDetectable = false;
-            scrollTimeout = setTimeout(() => {
-                newScrollDetectable = true;
-            }, 1000);
-            scrollLocked = true;
-        }
+            // console.log("Down", deltaY) 
+        },
     });
-}
-function getSectionTopOffset() {
-    // Get the section's top position relative to the viewport
-    const sectionTop = circSection.getBoundingClientRect().top;
-    // Add the current scroll position to get the section's top relative to the document
-    const sectionTopOffset = sectionTop + window.pageYOffset;
-    return sectionTopOffset;
-}
+    myObserver.disable(); 
+
+    ScrollTrigger.create({
+        trigger: "#circ-process",
+        start: "top bottom",  // When the top of the element hits the bottom of the viewport
+        end: "bottom top",    // When the bottom of the element hits the top of the viewport
+        onEnter: () => {
+            lockCircularity();
+        },
+        onLeave: () => {
+        },
+        onEnterBack: () => {
+            lockCircularity();
+        },
+        onLeaveBack: () => {
+        },
+    });
+
+    function showNextVariant(){
+        if(circularityVariant < 4){
+            circularityVariant++;
+            animateCircularity();
+        }else{
+            myObserver.disable()
+        }
+        console.log("CIRCULARITY:", circularityVariant)
+    }
+
+    function showPreviousVariant(){
+        if(circularityVariant > 1){
+            circularityVariant--;
+            animateCircularity();
+        }else{
+            myObserver.disable()
+        }
+        console.log("CIRCULARITY:", circularityVariant)
+    }
+    function animateCircularity() {
+        animating = true;
+        // Declare constants for duration and ease
+        const duration = 1;
+        const ease = "power1.inOut";
+
+        // Create a timeline
+        const timeline = gsap.timeline({
+            onComplete: () => {
+                console.log("All animations ended");
+                animating = false;
+            }
+        });
+
+        if (window.innerWidth <= 809) {
+            // Add animations to the timeline for mobile view
+            timeline
+                .to("#frame1", { ...frame1MobileAnimations[circularityVariant - 1], duration, ease })
+                .to("#frame2", { ...frame2MobileAnimations[circularityVariant - 1], duration, ease }, 0) // Start at the same time as frame1
+                .to("#frame3", { ...frame3MobileAnimations[circularityVariant - 1], duration, ease }, 0)
+                .to("#frame4", { ...frame4MobileAnimations[circularityVariant - 1], duration, ease }, 0)
+                .to("#circ-text-container", { ...textMobileAnimations[circularityVariant - 1], duration, ease }, 0);
+        } else {
+            // Add animations to the timeline for desktop view
+            timeline
+                .to("#frame1", { ...frame1Animations[circularityVariant - 1], duration, ease })
+                .to("#frame2", { ...frame2Animations[circularityVariant - 1], duration, ease }, 0)
+                .to("#frame3", { ...frame3Animations[circularityVariant - 1], duration, ease }, 0)
+                .to("#frame4", { ...frame4Animations[circularityVariant - 1], duration, ease }, 0)
+                .to("#circ-text-container", { ...textAnimations[circularityVariant - 1], duration, ease }, 0);
+        }
+    }
+    function lockCircularity(){
+        animating = true
+        myObserver.enable();
+        gsap.to(window, {
+            duration: 1.8,
+            scrollTo: "#circ-process",
+            ease: "power2.inOut",
+            onComplete: () => { animating=false; }
+        });
+    }
+
+});
