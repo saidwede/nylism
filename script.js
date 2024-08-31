@@ -70,10 +70,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     const myObserver = Observer.create({
         target: window, // can be any element (selector text is fine)
-        type: "scroll", // comma-delimited list of what to listen for ("wheel,touch,scroll,pointer")
+        type: "wheel,touch, pointer, scroll", // comma-delimited list of what to listen for ("wheel,touch,scroll,pointer")
         wheelSpeed: -1,
-        tolerance: 10,
-        debounce: false,
+        tolerance: 100,
         preventDefault: true,
         onUp: ({deltaY}) => { 
             if(!animating){
