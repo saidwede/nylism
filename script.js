@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     gsap.registerPlugin(ScrollTrigger,Observer)
 
     const myObserver = Observer.create({
-        target: window, // can be any element (selector text is fine)
+        // target: window, // can be any element (selector text is fine)
         type: "wheel, touch, pointer, scroll", // comma-delimited list of what to listen for ("wheel,touch,scroll,pointer")
         wheelSpeed: -1,
         tolerance: 100,
