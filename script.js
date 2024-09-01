@@ -93,15 +93,15 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     Observer.create({
         type: "wheel, touch, pointer, scroll", // comma-delimited list of what to listen for ("wheel,touch,scroll,pointer")
-        tolerance: 100,
+        tolerance: 10,
         preventDefault: false,
         onUp: ({deltaY}) => { console.log("SECOND UP",topEnter, circularityVisible)
-            if(!locked && !topEnter && circularityVisible && circularityVariant == 4 && !animating){
+            if(!locked && circularityVisible && circularityVariant == 4 && !animating){
                 lockCircularity()
             }
         },
         onDown: ({deltaY}) => { console.log("SECOND DOWN",topEnter, circularityVisible, locked)
-            if(!locked && topEnter && circularityVisible && circularityVariant == 1 && !animating){
+            if(!locked && circularityVisible && circularityVariant == 1 && !animating){
                 lockCircularity()
             }
         },
