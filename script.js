@@ -95,14 +95,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
         type: "wheel, touch, pointer, scroll", // comma-delimited list of what to listen for ("wheel,touch,scroll,pointer")
         tolerance: 10,
         preventDefault: false,
-        onUp: ({deltaY}) => { console.log("SECOND UP",topEnter, circularityVisible)
+        onUp: ({deltaY}) => { 
             if(!locked && circularityVisible && circularityVariant == 4 && !animating){
                 lockCircularity()
+                console.log("SECOND UP",topEnter, circularityVisible)
             }
         },
-        onDown: ({deltaY}) => { console.log("SECOND DOWN",topEnter, circularityVisible, locked)
+        onDown: ({deltaY}) => { 
             if(!locked && circularityVisible && circularityVariant == 1 && !animating){
                 lockCircularity()
+                console.log("SECOND DOWN",topEnter, circularityVisible, locked)
             }
         },
     })
