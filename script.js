@@ -1,5 +1,7 @@
 let circularityVariant = 1;
 let animating = false;
+circularityVisible = false;
+topEnter = true;
 
 const frame1Animations = [
     { rotation: 0, x: 0, y: 0 },
@@ -87,6 +89,24 @@ document.addEventListener("DOMContentLoaded", (event) => {
             // console.log("Down", deltaY) 
         },
     });
+
+    Observer.create({
+        type: "wheel, touch, pointer, scroll", // comma-delimited list of what to listen for ("wheel,touch,scroll,pointer")
+        wheelSpeed: -1,
+        tolerance: 100,
+        preventDefault: false,
+        onUp: ({deltaY}) => { 
+            if(!topEnter && circularityVisible){
+                lockCircularity
+            }
+        },
+        onDown: ({deltaY}) => { 
+            if(topEnter && circularityVisible){
+                lockCircularity
+            }
+        },
+    })
+
     myObserver.disable(); 
 
     ScrollTrigger.create({
@@ -94,14 +114,20 @@ document.addEventListener("DOMContentLoaded", (event) => {
         start: "top bottom",  // When the top of the element hits the bottom of the viewport
         end: "bottom top",    // When the bottom of the element hits the top of the viewport
         onEnter: () => {
+            circularityVisible = true;
+            topEnter = true;
             lockCircularity();
         },
         onLeave: () => {
+            circularityVisible = false;
         },
         onEnterBack: () => {
+            circularityVisible = true;
+            topEnter = false;
             lockCircularity();
         },
         onLeaveBack: () => {
+            circularityVisible = false;
         },
     });
 
