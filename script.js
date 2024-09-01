@@ -1,7 +1,8 @@
 let circularityVariant = 1;
 let animating = false;
-circularityVisible = false;
-topEnter = true;
+let circularityVisible = false;
+let topEnter = true;
+let locked = false;
 
 const frame1Animations = [
     { rotation: 0, x: 0, y: 0 },
@@ -92,17 +93,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     Observer.create({
         type: "wheel, touch, pointer, scroll", // comma-delimited list of what to listen for ("wheel,touch,scroll,pointer")
-        wheelSpeed: -1,
         tolerance: 100,
         preventDefault: false,
-        onUp: ({deltaY}) => { 
-            if(!topEnter && circularityVisible){
-                lockCircularity
+        onUp: ({deltaY}) => { console.log("SECOND UP",topEnter, circularityVisible)
+            if(!locked && !topEnter && circularityVisible && circularityVariant == 4 && !animating){
+                lockCircularity()
             }
         },
-        onDown: ({deltaY}) => { 
-            if(topEnter && circularityVisible){
-                lockCircularity
+        onDown: ({deltaY}) => { console.log("SECOND DOWN",topEnter, circularityVisible, locked)
+            if(!locked && topEnter && circularityVisible && circularityVariant == 1 && !animating){
+                lockCircularity()
             }
         },
     })
@@ -136,7 +136,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
             circularityVariant++;
             animateCircularity();
         }else{
-            myObserver.disable()
+            myObserver.disable();
+            locked = false;
         }
         console.log("CIRCULARITY:", circularityVariant)
     }
@@ -146,7 +147,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
             circularityVariant--;
             animateCircularity();
         }else{
-            myObserver.disable()
+            myObserver.disable();
+            locked = false;
         }
         console.log("CIRCULARITY:", circularityVariant)
     }
@@ -185,6 +187,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     function lockCircularity(){
         animating = true
         myObserver.enable();
+        locked = true;
         gsap.to(window, {
             duration: 1.8,
             scrollTo: "#circ-process",
