@@ -89,6 +89,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     showPreviousVariant()
                 }
             }
+            if(circularityVisible && circularityVariant == 4){
+                lockCircularity()
+            }
         },
         onDown: ({deltaY}) => { 
             //info.innerText = `DOWN ${count++} ${locked ? 'locked' : 'unlocked'}`;
@@ -97,6 +100,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 if(!animating){
                     showNextVariant();
                 }
+            }
+            if(circularityVisible && circularityVariant == 1){
+                lockCircularity()
             }
         },
     });
