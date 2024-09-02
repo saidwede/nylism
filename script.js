@@ -3,6 +3,10 @@ let animating = false;
 let circularityVisible = false;
 let topEnter = true;
 let locked = false;
+let info = document.getElementById("info");
+let count = 0;
+let isMobile = window.innerWidth <= 809;
+let circSection = document.getElementById("circ-process");
 
 const frame1Animations = [
     { rotation: 0, x: 0, y: 0 },
@@ -73,43 +77,29 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     const myObserver = Observer.create({
         // target: window, // can be any element (selector text is fine)
-        type: "wheel, touch, pointer, scroll", // comma-delimited list of what to listen for ("wheel,touch,scroll,pointer")
-        wheelSpeed: -1,
-        tolerance: 100,
-        preventDefault: true,
-        onUp: ({deltaY}) => { 
-            if(!animating){
-                showNextVariant();
-            }
-            // console.log("Up", deltaY) 
-        },
-        onDown: ({deltaY}) => { 
-            if(!animating){
-                showPreviousVariant()
-            }
-            // console.log("Down", deltaY) 
-        },
-    });
-
-    Observer.create({
-        type: "wheel, touch, pointer, scroll", // comma-delimited list of what to listen for ("wheel,touch,scroll,pointer")
-        tolerance: 10,
+        type: "wheel, scroll", // comma-delimited list of what to listen for ("wheel,touch,scroll,pointer")
+        wheelSpeed: 1,
+        tolerance: 20,
         preventDefault: false,
         onUp: ({deltaY}) => { 
-            if(!locked && circularityVisible && circularityVariant == 4 && !animating){
-                lockCircularity()
-                console.log("SECOND UP",topEnter, circularityVisible)
+            //info.innerText = `UP ${count++} ${locked ? 'locked' : 'unlocked'}`;
+            if(locked){
+                centerCircularity();
+                if(!animating){
+                    showPreviousVariant()
+                }
             }
         },
         onDown: ({deltaY}) => { 
-            if(!locked && circularityVisible && circularityVariant == 1 && !animating){
-                lockCircularity()
-                console.log("SECOND DOWN",topEnter, circularityVisible, locked)
+            //info.innerText = `DOWN ${count++} ${locked ? 'locked' : 'unlocked'}`;
+            if(locked){
+                centerCircularity();
+                if(!animating){
+                    showNextVariant();
+                }
             }
         },
-    })
-
-    myObserver.disable(); 
+    });
 
     ScrollTrigger.create({
         trigger: "#circ-process",
@@ -138,7 +128,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             circularityVariant++;
             animateCircularity();
         }else{
-            myObserver.disable();
+            // myObserver.disable();
             locked = false;
         }
         console.log("CIRCULARITY:", circularityVariant)
@@ -149,7 +139,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             circularityVariant--;
             animateCircularity();
         }else{
-            myObserver.disable();
+            // myObserver.disable();
             locked = false;
         }
         console.log("CIRCULARITY:", circularityVariant)
@@ -157,7 +147,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     function animateCircularity() {
         animating = true;
         // Declare constants for duration and ease
-        const duration = 1;
+        const duration = 2;
         const ease = "power1.inOut";
 
         // Create a timeline
@@ -168,7 +158,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             }
         });
 
-        if (window.innerWidth <= 809) {
+        if (isMobile) {
             // Add animations to the timeline for mobile view
             timeline
                 .to("#frame1", { ...frame1MobileAnimations[circularityVariant - 1], duration, ease })
@@ -188,13 +178,23 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
     function lockCircularity(){
         animating = true
-        myObserver.enable();
-        locked = true;
+        //myObserver.enable();
         gsap.to(window, {
-            duration: 1.8,
-            scrollTo: "#circ-process",
+            duration: 2,
+            scrollTo: `#${circularityVariant == 1 ? 'circ-top' : ''}${circularityVariant == 4 ? 'circ-bottom' : ''}${circularityVariant > 1 && circularityVariant < 4 ?  'circ-center' : ''}`,
             ease: "power2.inOut",
-            onComplete: () => { animating=false; }
+            onComplete: () => { 
+                animating=false; 
+                locked = true;
+                //lockBody("#any");
+                //circSection.style.position = "fixed";
+            }
+        });
+    }
+    function centerCircularity(){
+        gsap.to(window, {
+            duration: 0,
+            scrollTo: `#${circularityVariant == 1 ? 'circ-top' : ''}${circularityVariant == 4 ? 'circ-bottom' : ''}${circularityVariant > 1 && circularityVariant < 4 ?  'circ-center' : ''}`
         });
     }
 
