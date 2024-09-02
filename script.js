@@ -147,7 +147,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     function animateCircularity() {
         animating = true;
         // Declare constants for duration and ease
-        const duration = 2;
+        const duration = 1.5;
         const ease = "power1.inOut";
 
         // Create a timeline
