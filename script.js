@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     showPreviousVariant()
                 }
             }
-            if(circularityVisible && circularityVariant == 1 && !animating){
+            if(circularityVisible && circularityVariant == 4 && !animating){
                 lockCircularity()
             }
         },
@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     showNextVariant();
                 }
             }
-            if(circularityVisible && circularityVariant == 4 && !animating){
+            if(circularityVisible && circularityVariant == 1 && !animating){
                 lockCircularity()
             }
         },
