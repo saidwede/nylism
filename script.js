@@ -128,7 +128,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 requestedLock = false;
                 centerCircularity();
             }
-        }
+        },
+        onStopDelay: 0
     });
     ScrollTrigger.create({
         trigger: "#top-seg",
