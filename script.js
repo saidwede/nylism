@@ -85,8 +85,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
         wheelSpeed: 1,
         tolerance: 20,
         preventDefault: false,
-        onUp: ({deltaY}) => { 
-            // info.innerText = `UP ${count++} ${locked ? 'locked' : 'unlocked'}`;
+        onUp: ({deltaY}) => {
+            checkRequestScrollingLock();
             if(locked && !endTop){
                 animationCenter();
             }
@@ -96,19 +96,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     showPreviousVariant();
                 }
             }
-            // if(locked && circularityVariant > 1){
-            //     centerCircularity();
-            //     if(!animating){
-            //         showPreviousVariant()
-            //     }
-            // }
-            // if(circularityVisible && circularityVariant == 4 && !animating){
-            //     console.log("Call 01");
-            //     lockCircularity()
-            // }
         },
         onDown: ({deltaY}) => { 
-            // info.innerText = `DOWN ${count++} ${locked ? 'locked' : 'unlocked'}`;
+            checkRequestScrollingLock();
             if(locked && !endDown){
                 animationCenter();
             }
@@ -118,10 +108,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     showNextVariant();
                 }
             }
-            // if(circularityVisible && circularityVariant == 1 && !animating){
-            //     console.log("Call 02");
-            //     lockCircularity()
-            // }
         },
         onStop: () => {
             if(requestedLock){
@@ -303,6 +289,17 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 locked = true;
             }
         });
+    }
+    function checkRequestScrollingLock(){
+        if(requestedLock){
+            gsap.to(window, {
+                duration: 0,
+                scrollTo: {
+                    y: `#${circularityVariant == 1 ? 'top-seg' : ''}${circularityVariant == 4 ? 'top-bottom-seg' : ''}${circularityVariant > 1 && circularityVariant < 4 ?  'circ-center' : ''}`,
+                    offsetY: circularityVariant == 1 ? -2 : 2
+                }
+            });
+        }
     }
     function animationCenter(){
         gsap.to(window, {
