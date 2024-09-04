@@ -3,10 +3,14 @@ let animating = false;
 let circularityVisible = false;
 let topEnter = true;
 let locked = false;
+let requestedLock = false;
 let info = document.getElementById("info");
 let count = 0;
 let isMobile = window.innerWidth <= 809;
 let circSection = document.getElementById("circ-process");
+let reachedCircularity = false;
+let endDown = false;
+let endTop = true;
 
 const frame1Animations = [
     { rotation: 0, x: 0, y: 0 },
@@ -73,7 +77,7 @@ const textMobileAnimations = [
 ];
 
 document.addEventListener("DOMContentLoaded", (event) => {
-    gsap.registerPlugin(ScrollTrigger,Observer)
+    gsap.registerPlugin(ScrollTrigger,Observer, ScrollToPlugin)
 
     const myObserver = Observer.create({
         // target: window, // can be any element (selector text is fine)
@@ -82,31 +86,94 @@ document.addEventListener("DOMContentLoaded", (event) => {
         tolerance: 20,
         preventDefault: false,
         onUp: ({deltaY}) => { 
-            //info.innerText = `UP ${count++} ${locked ? 'locked' : 'unlocked'}`;
-            if(locked){
-                centerCircularity();
+            // info.innerText = `UP ${count++} ${locked ? 'locked' : 'unlocked'}`;
+            if(locked && !endTop){
+                animationCenter();
+            }
+            if(locked && !endTop){
+                //animationCenter();
                 if(!animating){
-                    showPreviousVariant()
+                    showPreviousVariant();
                 }
             }
-            if(circularityVisible && circularityVariant == 4 && !animating){
-                lockCircularity()
-            }
+            // if(locked && circularityVariant > 1){
+            //     centerCircularity();
+            //     if(!animating){
+            //         showPreviousVariant()
+            //     }
+            // }
+            // if(circularityVisible && circularityVariant == 4 && !animating){
+            //     console.log("Call 01");
+            //     lockCircularity()
+            // }
         },
         onDown: ({deltaY}) => { 
-            //info.innerText = `DOWN ${count++} ${locked ? 'locked' : 'unlocked'}`;
-            if(locked){
-                centerCircularity();
+            // info.innerText = `DOWN ${count++} ${locked ? 'locked' : 'unlocked'}`;
+            if(locked && !endDown){
+                animationCenter();
+            }
+            if(locked && !endDown){
+                //animationCenter();
                 if(!animating){
                     showNextVariant();
                 }
             }
-            if(circularityVisible && circularityVariant == 1 && !animating){
-                lockCircularity()
-            }
+            // if(circularityVisible && circularityVariant == 1 && !animating){
+            //     console.log("Call 02");
+            //     lockCircularity()
+            // }
         },
+        onStop: () => {
+            if(requestedLock){
+                requestedLock = false;
+                centerCircularity();
+            }
+        }
     });
-
+    ScrollTrigger.create({
+        trigger: "#top-seg",
+        start: "top top",
+        end: "bottom top",
+        onEnter: () => {
+            reachedCircularity = true;
+            requestedLock = true;
+            console.log("Top seg Enter");
+        },
+        onLeave: () => {
+            console.log("Top seg Leave");
+        },
+        onEnterBack: () => {
+            console.log("Top seg Enter Back");
+        },
+        onLeaveBack: () => {
+            reachedCircularity = false;
+            locked = false;
+            requestedLock = false;
+            console.log("Top seg Leave Back");
+        }
+    })
+    ScrollTrigger.create({
+        trigger: "#top-bottom-seg",
+        start: "top top",
+        end: "bottom top",
+        onEnter: () => {
+            console.log("Bottom seg Enter");
+        },
+        onLeave: () => {
+            reachedCircularity = false;
+            locked = false;
+            requestedLock = false;
+            console.log("Bottom seg Leave");
+        },
+        onEnterBack: () => {
+            reachedCircularity = true;
+            requestedLock = true;
+            console.log("Bottom seg Enter Back");
+        },
+        onLeaveBack: () => {
+            console.log("Bottom seg Leave Back");
+        }
+    })
     ScrollTrigger.create({
         trigger: "#circ-process",
         start: "top bottom",  // When the top of the element hits the bottom of the viewport
@@ -114,18 +181,20 @@ document.addEventListener("DOMContentLoaded", (event) => {
         onEnter: () => {
             circularityVisible = true;
             topEnter = true;
-            lockCircularity();
         },
         onLeave: () => {
+            console.log("Leave")
             circularityVisible = false;
+            
         },
         onEnterBack: () => {
             circularityVisible = true;
             topEnter = false;
-            lockCircularity();
         },
         onLeaveBack: () => {
+            console.log("LeaveBack")
             circularityVisible = false;
+            
         },
     });
 
@@ -133,9 +202,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
         if(circularityVariant < 4){
             circularityVariant++;
             animateCircularity();
-        }else{
-            // myObserver.disable();
-            locked = false;
         }
         console.log("CIRCULARITY:", circularityVariant)
     }
@@ -144,9 +210,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
         if(circularityVariant > 1){
             circularityVariant--;
             animateCircularity();
-        }else{
-            // myObserver.disable();
-            locked = false;
         }
         console.log("CIRCULARITY:", circularityVariant)
     }
@@ -161,6 +224,35 @@ document.addEventListener("DOMContentLoaded", (event) => {
             onComplete: () => {
                 console.log("All animations ended");
                 animating = false;
+                if(circularityVariant == 4){
+                    gsap.to(window, {
+                        duration: 0,
+                        scrollTo: {
+                            y: `#circ-bottom`,
+                            offsetY: 2
+                        },
+                        onComplete: () => {
+                            endDown = true;
+                        }
+                    });
+                }else{
+                    endDown = false;
+                }
+
+                if(circularityVariant == 1){
+                    gsap.to(window, {
+                        duration: 0,
+                        scrollTo: {
+                            y: `#circ-top`,
+                            offsetY: -2
+                        },
+                        onComplete: () => {
+                            endTop = true;
+                        }
+                    });
+                }else{
+                    endTop = false;
+                }
             }
         });
 
@@ -183,10 +275,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }
     }
     function lockCircularity(){
+        console.log("lockCircularity")
         animating = true
         //myObserver.enable();
         gsap.to(window, {
-            duration: 2,
+            duration: 1,
             scrollTo: `#${circularityVariant == 1 ? 'circ-top' : ''}${circularityVariant == 4 ? 'circ-bottom' : ''}${circularityVariant > 1 && circularityVariant < 4 ?  'circ-center' : ''}`,
             ease: "power2.inOut",
             onComplete: () => { 
@@ -200,7 +293,24 @@ document.addEventListener("DOMContentLoaded", (event) => {
     function centerCircularity(){
         gsap.to(window, {
             duration: 0,
-            scrollTo: `#${circularityVariant == 1 ? 'circ-top' : ''}${circularityVariant == 4 ? 'circ-bottom' : ''}${circularityVariant > 1 && circularityVariant < 4 ?  'circ-center' : ''}`
+            scrollTo: {
+                y: `#${circularityVariant == 1 ? 'top-seg' : ''}${circularityVariant == 4 ? 'top-bottom-seg' : ''}${circularityVariant > 1 && circularityVariant < 4 ?  'circ-center' : ''}`,
+                offsetY: circularityVariant == 1 ? -2 : 2
+            },
+            onComplete: () => {
+                requestedLock = false;
+                locked = true;
+            }
+        });
+    }
+    function animationCenter(){
+        gsap.to(window, {
+            duration: 0,
+            scrollTo: {
+                y: `#circ-center`
+            },
+            onComplete: () => {
+            }
         });
     }
 
