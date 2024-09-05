@@ -4,6 +4,8 @@ let circularityVisible = false;
 let topEnter = true;
 let locked = false;
 let requestedLock = false;
+let requestDown = false;
+let requestUp = false;
 let info = document.getElementById("info");
 let count = 0;
 let isMobile = window.innerWidth <= 809;
@@ -88,7 +90,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         tolerance: 20,
         preventDefault: false,
         onUp: ({deltaY, velocityY}) => {
-            if(requestedLock){
+            if(requestedLock && requestUp){
                 if(velocityY > lastVelocity){
                     detectedDownVeloce = true;
                 }
@@ -109,8 +111,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
             }
         },
         onDown: ({deltaY, velocityY}) => {
-            // console.log(parseInt(velocityY));
-            if(requestedLock){
+            console.log(parseInt(velocityY));
+            if(requestedLock && requestDown){
                 if(velocityY < lastVelocity){
                     detectedDownVeloce = true;
                 }
@@ -147,6 +149,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         onEnter: () => {
             reachedCircularity = true;
             requestedLock = true;
+            requestDown = true;
             detectedDownVeloce = false;
             // console.log("Top seg Enter");
         },
@@ -180,6 +183,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         onEnterBack: () => {
             reachedCircularity = true;
             requestedLock = true;
+            requestUp = true;
             detectedDownVeloce = false;
             // console.log("Bottom seg Enter Back");
         },
@@ -312,6 +316,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
             },
             onComplete: () => {
                 requestedLock = false;
+                requestDown = false;
+                requestUp = false;
                 locked = true;
             }
         });
