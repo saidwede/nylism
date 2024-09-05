@@ -11,6 +11,8 @@ let circSection = document.getElementById("circ-process");
 let reachedCircularity = false;
 let endDown = false;
 let endTop = true;
+let lastVelocity = 0;
+let detectedDownVeloce = false;
 
 const frame1Animations = [
     { rotation: 0, x: 0, y: 0 },
@@ -85,7 +87,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
         wheelSpeed: 1,
         tolerance: 20,
         preventDefault: false,
-        onUp: ({deltaY}) => {
+        onUp: ({deltaY, velocityY}) => {
+            if(requestedLock){
+                if(velocityY > lastVelocity){
+                    detectedDownVeloce = true;
+                }
+                if(detectedDownVeloce && velocityY < 2*lastVelocity && !animating){
+                    showPreviousVariant();
+                }
+                lastVelocity = velocityY;
+            }
             checkRequestScrollingLock();
             if(locked && !endTop){
                 animationCenter();
@@ -97,7 +108,17 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 }
             }
         },
-        onDown: ({deltaY}) => { 
+        onDown: ({deltaY, velocityY}) => {
+            // console.log(parseInt(velocityY));
+            if(requestedLock){
+                if(velocityY < lastVelocity){
+                    detectedDownVeloce = true;
+                }
+                if(detectedDownVeloce && velocityY > 2*lastVelocity && !animating){
+                    showNextVariant();
+                }
+                lastVelocity = velocityY;
+            }
             checkRequestScrollingLock();
             if(locked && !endDown){
                 animationCenter();
@@ -110,8 +131,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
             }
         },
         onStop: () => {
+            console.log("STOP!!!")
             if(requestedLock){
                 requestedLock = false;
+                lastVelocity = 0;
                 centerCircularity();
             }
         },
@@ -124,19 +147,21 @@ document.addEventListener("DOMContentLoaded", (event) => {
         onEnter: () => {
             reachedCircularity = true;
             requestedLock = true;
-            console.log("Top seg Enter");
+            detectedDownVeloce = false;
+            // console.log("Top seg Enter");
         },
         onLeave: () => {
-            console.log("Top seg Leave");
+            // console.log("Top seg Leave");
         },
         onEnterBack: () => {
-            console.log("Top seg Enter Back");
+            // console.log("Top seg Enter Back");
         },
         onLeaveBack: () => {
             reachedCircularity = false;
             locked = false;
             requestedLock = false;
-            console.log("Top seg Leave Back");
+            detectedDownVeloce = false;
+            // console.log("Top seg Leave Back");
         }
     })
     ScrollTrigger.create({
@@ -144,21 +169,22 @@ document.addEventListener("DOMContentLoaded", (event) => {
         start: "top top",
         end: "bottom top",
         onEnter: () => {
-            console.log("Bottom seg Enter");
+            // console.log("Bottom seg Enter");
         },
         onLeave: () => {
             reachedCircularity = false;
             locked = false;
             requestedLock = false;
-            console.log("Bottom seg Leave");
+            // console.log("Bottom seg Leave");
         },
         onEnterBack: () => {
             reachedCircularity = true;
             requestedLock = true;
-            console.log("Bottom seg Enter Back");
+            detectedDownVeloce = false;
+            // console.log("Bottom seg Enter Back");
         },
         onLeaveBack: () => {
-            console.log("Bottom seg Leave Back");
+            // console.log("Bottom seg Leave Back");
         }
     })
     ScrollTrigger.create({
@@ -170,7 +196,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             topEnter = true;
         },
         onLeave: () => {
-            console.log("Leave")
+            // console.log("Leave")
             circularityVisible = false;
             
         },
@@ -179,7 +205,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             topEnter = false;
         },
         onLeaveBack: () => {
-            console.log("LeaveBack")
+            // console.log("LeaveBack")
             circularityVisible = false;
             
         },
@@ -209,7 +235,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         // Create a timeline
         const timeline = gsap.timeline({
             onComplete: () => {
-                console.log("All animations ended");
+                // console.log("All animations ended");
                 animating = false;
                 if(circularityVariant == 4){
                     gsap.to(window, {
@@ -262,7 +288,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }
     }
     function lockCircularity(){
-        console.log("lockCircularity")
+        // console.log("lockCircularity")
         animating = true
         //myObserver.enable();
         gsap.to(window, {
