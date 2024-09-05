@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             }
         },
         onDown: ({deltaY, velocityY}) => {
-            console.log(parseInt(velocityY));
+            //console.log(parseInt(velocityY));
             if(requestedLock && requestDown){
                 if(velocityY < lastVelocity){
                     detectedDownVeloce = true;
