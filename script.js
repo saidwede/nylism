@@ -9,7 +9,7 @@ let requestUp = false;
 let info = document.getElementById("info");
 let count = 0;
 let isMobile = window.innerWidth <= 809;
-let circSection = document.getElementById("circ-process");
+let circSection = document.getElementById("process");
 let reachedCircularity = false;
 let endDown = false;
 let endTop = true;
@@ -192,7 +192,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }
     })
     ScrollTrigger.create({
-        trigger: "#circ-process",
+        trigger: "#process",
         start: "top bottom",  // When the top of the element hits the bottom of the viewport
         end: "bottom top",    // When the bottom of the element hits the top of the viewport
         onEnter: () => {
