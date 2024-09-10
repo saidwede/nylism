@@ -83,8 +83,8 @@ const textMobileAnimations = [
 document.addEventListener("DOMContentLoaded", (event) => {
     gsap.registerPlugin(ScrollTrigger,Observer, ScrollToPlugin)
 
-    const processLink = document.querySelector('a[href="./#process"]');
-    const shopLink = document.querySelector('a[href="./#product"]');
+    const processLink = document.querySelectorAll('a[href="./#process"]');
+    const shopLink = document.querySelectorAll('a[href="./#product"]');
 
     function smoothScrollTo(event, targetSelector) {
         event.preventDefault();  // Prevent default action (jumping)
@@ -105,14 +105,18 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }
     }
 
-    processLink.addEventListener("click", function(event) {
-        smoothScrollTo(event, "#process");
+    processLink.forEach(element => {
+        element.addEventListener("click", function(event) {
+            smoothScrollTo(event, "#process");
+        }); 
     });
-
-    shopLink.addEventListener("click", function(event) {
-        smoothScrollTo(event, "#product");
+    
+    shopLink.forEach(element => {
+        element.addEventListener("click", function(event) {
+            smoothScrollTo(event, "#product");
+        });
     });
-
+    
     const myObserver = Observer.create({
         // target: window, // can be any element (selector text is fine)
         type: "wheel, scroll", // comma-delimited list of what to listen for ("wheel,touch,scroll,pointer")
