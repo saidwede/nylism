@@ -77,7 +77,7 @@ const textMobileAnimations = [
     {y: 0},
     {y: -254},
     {y: -508},
-    {y: -762}
+    {y: -788}
 ];
 
 document.addEventListener("DOMContentLoaded", (event) => {
