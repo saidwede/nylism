@@ -16,6 +16,20 @@ let endTop = true;
 let lastVelocity = 0;
 let detectedDownVeloce = false;
 
+// Get all the video elements on the page
+const videos = document.querySelectorAll('video');
+// Loop through each video and add an event listener
+videos.forEach((video) => {
+  video.addEventListener('play', () => {
+    // Pause all other videos when one starts playing
+    videos.forEach((otherVideo) => {
+      if (otherVideo !== video) {
+        otherVideo.pause();
+      }
+    });
+  });
+});
+
 const frame1Animations = [
     { rotation: 0, x: 0, y: 0 },
     { rotation: 90, x: 404, y: 349 },
