@@ -25,6 +25,7 @@ videos.forEach((video) => {
     videos.forEach((otherVideo) => {
       if (otherVideo !== video) {
         otherVideo.pause();
+        otherVideo.currentTime = 0;
       }
     });
   });
