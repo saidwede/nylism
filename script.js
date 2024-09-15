@@ -127,6 +127,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     
     shopLink.forEach(element => {
         element.addEventListener("click", function(event) {
+            console.log("Click shop!");
             smoothScrollTo(event, "#product");
         });
     });
