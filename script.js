@@ -23,8 +23,7 @@ videos.forEach((video) => {
   video.addEventListener('play', () => {
     // Pause all other videos when one starts playing
     videos.forEach((otherVideo) => {
-      if (otherVideo !== video) {
-        otherVideo.pause();
+      if (otherVideo !== video && !otherVideo.paused && !otherVideo.ended) {
         otherVideo.currentTime = otherVideo.duration;
       }
     });
