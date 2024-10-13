@@ -99,6 +99,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     const processLink = document.querySelectorAll('a[href="./#process"]');
     const shopLink = document.querySelectorAll('a[href="./#product"]');
+    const process = document.getElementById("process");
+    const processHeight = process.offsetHeight;
 
     function smoothScrollTo(event, targetSelector) {
         event.preventDefault();  // Prevent default action (jumping)
@@ -106,16 +108,27 @@ document.addEventListener("DOMContentLoaded", (event) => {
         const targetElement = document.querySelector(targetSelector);
 
         if (targetElement) {
-            // Use GSAP to animate the scroll
             animating = true;
-            gsap.to(window, {
-                scrollTo: targetElement, // Target the element to scroll to
-                duration: 1.5,           // Animation duration (seconds)
-                ease: "power2.inOut",
+            gsap.to("#process", {
+                height: 'initial',
+                duration: 0,
                 onComplete: () => {
-                    animating = false;
+                    gsap.to(window, {
+                        scrollTo: targetElement, // Target the element to scroll to
+                        duration: 1.5,           // Animation duration (seconds)
+                        ease: "power2.inOut",
+                        onComplete: () => {
+                            gsap.to("#process", {
+                                height: processHeight+'px',
+                                duration: 0,
+                                onComplete: () => {
+                                    animating = false;
+                                }
+                            });
+                        }
+                    });
                 }
-            });
+            })
         }
     }
 
