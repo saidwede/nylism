@@ -15,7 +15,7 @@ let endDown = false;
 let endTop = true;
 let lastVelocity = 0;
 let detectedDownVeloce = false;
-let isLockCalled = true;
+let isLockCalled = false;
 let timeout;
 
 // Get all the video elements on the page
@@ -149,17 +149,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 }
                 lastVelocity = velocityY;
             }
-
+            checkRequestScrollingLock();
+            // if(locked && !endTop){
+            //     animationCenter();
+            // }
             if(locked && !endTop){
-                animationCenter();
-            }
-            if(locked && !endTop){
-                //animationCenter();
                 if(!animating && !isLockCalled){
                     showPreviousVariant();
                 }
+                animationCenter();
             }
-            checkRequestScrollingLock();
         },
         onDown: ({deltaY, velocityY}) => {
             //console.log(parseInt(velocityY));
@@ -172,17 +171,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 }
                 lastVelocity = velocityY;
             }
-            
+            checkRequestScrollingLock();
+            // if(locked && !endDown){
+            //     animationCenter();
+            // }
             if(locked && !endDown){
-                animationCenter();
-            }
-            if(locked && !endDown){
-                //animationCenter();
                 if(!animating && !isLockCalled){
                     showNextVariant();
                 }
+                animationCenter();
             }
-            checkRequestScrollingLock();
         },
         onStop: () => {
             console.log("STOP!!!")
@@ -378,8 +376,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
         });
     }
     function checkRequestScrollingLock(){
-        clearTimeout(timeout);
-        isLockCalled = true;
         if(requestedLock){
             gsap.to(window, {
                 duration: 0,
@@ -388,20 +384,22 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     offsetY: circularityVariant == 1 ? -2 : 2
                 },
                 onComplete: () => {
-                    timeout = setTimeout(() => {
-                        isLockCalled = false;
-                    }, 300);
                 }
             });
         }
     }
     function animationCenter(){
+        clearTimeout(timeout);
+        isLockCalled = true;
         gsap.to(window, {
             duration: 0,
             scrollTo: {
                 y: `#circ-center`
             },
             onComplete: () => {
+                timeout = setTimeout(() => {
+                    isLockCalled = false;
+                }, 300);
             }
         });
     }
