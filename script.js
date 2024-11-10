@@ -15,6 +15,8 @@ let endDown = false;
 let endTop = true;
 let lastVelocity = 0;
 let detectedDownVeloce = false;
+let isLockCalled = true;
+let timeout;
 
 // Get all the video elements on the page
 const videos = document.querySelectorAll('video');
@@ -142,7 +144,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 if(velocityY > lastVelocity){
                     detectedDownVeloce = true;
                 }
-                if(detectedDownVeloce && velocityY < 2*lastVelocity && !animating){
+                if(detectedDownVeloce && velocityY < 2*lastVelocity && !animating && !isLockCalled){
                     showPreviousVariant();
                 }
                 lastVelocity = velocityY;
@@ -153,7 +155,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             }
             if(locked && !endTop){
                 //animationCenter();
-                if(!animating){
+                if(!animating && !isLockCalled){
                     showPreviousVariant();
                 }
             }
@@ -164,7 +166,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 if(velocityY < lastVelocity){
                     detectedDownVeloce = true;
                 }
-                if(detectedDownVeloce && velocityY > 2*lastVelocity && !animating){
+                if(detectedDownVeloce && velocityY > 2*lastVelocity && !animating && !isLockCalled){
                     showNextVariant();
                 }
                 lastVelocity = velocityY;
@@ -175,7 +177,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             }
             if(locked && !endDown){
                 //animationCenter();
-                if(!animating){
+                if(!animating && !isLockCalled){
                     showNextVariant();
                 }
             }
@@ -374,12 +376,19 @@ document.addEventListener("DOMContentLoaded", (event) => {
         });
     }
     function checkRequestScrollingLock(){
+        clearTimeout(timeout);
+        isLockCalled = true;
         if(requestedLock){
             gsap.to(window, {
                 duration: 0,
                 scrollTo: {
                     y: `#${circularityVariant == 1 ? 'top-seg' : ''}${circularityVariant == 4 ? 'top-bottom-seg' : ''}${circularityVariant > 1 && circularityVariant < 4 ?  'circ-center' : ''}`,
                     offsetY: circularityVariant == 1 ? -2 : 2
+                },
+                onComplete: () => {
+                    timeout = setTimeout(() => {
+                        isLockCalled = false;
+                    }, 300);
                 }
             });
         }
