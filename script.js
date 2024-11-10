@@ -399,7 +399,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             onComplete: () => {
                 timeout = setTimeout(() => {
                     isLockCalled = false;
-                }, 500);
+                }, 200);
             }
         });
     }
