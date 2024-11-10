@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 }
                 lastVelocity = velocityY;
             }
-            checkRequestScrollingLock();
+
             if(locked && !endTop){
                 animationCenter();
             }
@@ -159,6 +159,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     showPreviousVariant();
                 }
             }
+            checkRequestScrollingLock();
         },
         onDown: ({deltaY, velocityY}) => {
             //console.log(parseInt(velocityY));
@@ -171,7 +172,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 }
                 lastVelocity = velocityY;
             }
-            checkRequestScrollingLock();
+            
             if(locked && !endDown){
                 animationCenter();
             }
@@ -181,6 +182,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     showNextVariant();
                 }
             }
+            checkRequestScrollingLock();
         },
         onStop: () => {
             console.log("STOP!!!")
