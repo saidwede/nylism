@@ -204,40 +204,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         // Create a timeline
         const timeline = gsap.timeline({
             onComplete: () => {
-                setTimeout(() => {
-                    // console.log("All animations ended");
-                    animating = false;
-                    if(circularityVariant == 4){
-                        gsap.to(window, {
-                            duration: 0,
-                            scrollTo: {
-                                y: `#circ-bottom`,
-                                offsetY: 2
-                            },
-                            onComplete: () => {
-                                endDown = true;
-                            }
-                        });
-                    }else{
-                        endDown = false;
-                    }
-
-                    if(circularityVariant == 1){
-                        gsap.to(window, {
-                            duration: 0,
-                            scrollTo: {
-                                y: `#circ-top`,
-                                offsetY: -2
-                            },
-                            onComplete: () => {
-                                endTop = true;
-                            }
-                        });
-                    }else{
-                        endTop = false;
-                    }
-
-                }, 500);
+                animating = false;
             }
         });
 
