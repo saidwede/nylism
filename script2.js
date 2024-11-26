@@ -144,9 +144,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
         onLeave: () => {
         },
         onEnterBack: () => {
-            showPreviousVariant()
         },
         onLeaveBack: () => {
+            showPreviousVariant()
         }
     })
     ScrollTrigger.create({
