@@ -116,19 +116,20 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 ease: "power2.inOut",
                 onComplete: () => {
                     animating = false;
+                    console.log("Jump!")
                 }
             });
         }
     }
 
     processLink.forEach(element => {
-        element.addEventListener("click", function(event) {
+        element.addEventListener("click", function(event) {console.log("Clicked!");
             smoothScrollTo(event, "#process");
         }); 
     });
     
     shopLink.forEach(element => {
-        element.addEventListener("click", function(event) {
+        element.addEventListener("click", function(event) {console.log("Clicked!");
             smoothScrollTo(event, "#product");
         });
     });
