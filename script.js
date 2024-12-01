@@ -134,6 +134,34 @@ document.addEventListener("DOMContentLoaded", (event) => {
         });
     });
     
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
+    const gestureArea = document.getElementById('gesture-area');
+    const hammer = new Hammer(gestureArea);
+    hammer.get('swipe').set({
+        direction: Hammer.DIRECTION_VERTICAL, // Detect vertical swipes only
+        threshold: 10,                       // Minimum distance for swipe to register
+        velocity: 0.3                        // Minimum velocity for swipe to register
+    });
+    hammer.on('swipeup', () => {
+        checkRequestScrollingLock();
+        if(locked && !endDown){
+            if(!animating && !isLockCalled){
+                showNextVariant();
+            }
+            animationCenter();
+        }
+    });
+    hammer.on('swipedown', () => {
+        checkRequestScrollingLock();
+        if(locked && !endTop){
+            if(!animating && !isLockCalled){
+                showPreviousVariant();
+            }
+            animationCenter();
+        }
+    });
+
+
     const myObserver = Observer.create({
         // target: window, // can be any element (selector text is fine)
         type: "scroll", // comma-delimited list of what to listen for ("wheel,touch,scroll,pointer")
@@ -145,7 +173,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 if(velocityY > lastVelocity){
                     detectedDownVeloce = true;
                 }
-                if(detectedDownVeloce && velocityY < 2*lastVelocity && !animating && !isLockCalled){
+                if(!isTouchDevice && detectedDownVeloce && velocityY < 2*lastVelocity && !animating && !isLockCalled){
                     showPreviousVariant();
                 }
                 lastVelocity = velocityY;
@@ -155,7 +183,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             //     animationCenter();
             // }
             if(locked && !endTop){
-                if(!animating && !isLockCalled){
+                if(!isTouchDevice && !animating && !isLockCalled){
                     showPreviousVariant();
                 }
                 animationCenter();
@@ -167,7 +195,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 if(velocityY < lastVelocity){
                     detectedDownVeloce = true;
                 }
-                if(detectedDownVeloce && velocityY > 2*lastVelocity && !animating && !isLockCalled){
+                if(!isTouchDevice && detectedDownVeloce && velocityY > 2*lastVelocity && !animating && !isLockCalled){
                     showNextVariant();
                 }
                 lastVelocity = velocityY;
@@ -177,7 +205,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             //     animationCenter();
             // }
             if(locked && !endDown){
-                if(!animating && !isLockCalled){
+                if(!isTouchDevice && !animating && !isLockCalled){
                     showNextVariant();
                 }
                 animationCenter();
