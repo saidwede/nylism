@@ -403,6 +403,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         });
     }
     function centerCircularity(){
+        locked = true;
         gsap.to(window, {
             duration: 0,
             scrollTo: {
@@ -413,7 +414,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 requestedLock = false;
                 requestDown = false;
                 requestUp = false;
-                locked = true;
             }
         });
     }
