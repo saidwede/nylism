@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });
     hammer.on('swipeup', () => {
         checkRequestScrollingLock();
-        if(locked && !endDown){
+        if(!endDown){
             if(!animating){
                 showNextVariant();
             }
@@ -160,7 +160,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });
     hammer.on('swipedown', () => {
         checkRequestScrollingLock();
-        if(locked && !endTop){
+        if(!endTop){
             if(!animating){
                 showPreviousVariant();
             }
