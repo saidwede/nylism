@@ -187,7 +187,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     detectedDownVeloce = true;
                 }
                 if(!isTouchDevice && detectedDownVeloce && velocityY < 2*lastVelocity && !animating){
-                    showPreviousVariant();
+                    //showPreviousVariant();
                 }
                 lastVelocity = velocityY;
             }
@@ -209,7 +209,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     detectedDownVeloce = true;
                 }
                 if(!isTouchDevice && detectedDownVeloce && velocityY > 2*lastVelocity && !animating){
-                    showNextVariant();
+                    //showNextVariant();
                 }
                 lastVelocity = velocityY;
             }
@@ -386,22 +386,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 .to("#circ-text-container", { ...textAnimations[circularityVariant - 1], duration, ease }, 0);
         }
     }
-    function lockCircularity(){
-        // console.log("lockCircularity")
-        animating = true
-        //myObserver.enable();
-        gsap.to(window, {
-            duration: 1,
-            scrollTo: `#${circularityVariant == 1 ? 'circ-top' : ''}${circularityVariant == 4 ? 'circ-bottom' : ''}${circularityVariant > 1 && circularityVariant < 4 ?  'circ-center' : ''}`,
-            ease: "power2.inOut",
-            onComplete: () => { 
-                animating=false; 
-                locked = true;
-                //lockBody("#any");
-                //circSection.style.position = "fixed";
-            }
-        });
-    }
+    
     function centerCircularity(){
         locked = true;
         gsap.to(window, {
