@@ -186,7 +186,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 if(velocityY > lastVelocity){
                     detectedDownVeloce = true;
                 }
-                if(!isTouchDevice && detectedDownVeloce && velocityY < 3*lastVelocity && !animating){
+                if(!isTouchDevice && detectedDownVeloce && velocityY < 2.5*lastVelocity && !animating){
                     showPreviousVariant();
                 }
                 lastVelocity = velocityY;
@@ -208,7 +208,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 if(velocityY < lastVelocity){
                     detectedDownVeloce = true;
                 }
-                if(!isTouchDevice && detectedDownVeloce && velocityY > 3*lastVelocity && !animating){
+                if(!isTouchDevice && detectedDownVeloce && velocityY > 2.5*lastVelocity && !animating){
                     showNextVariant();
                 }
                 lastVelocity = velocityY;
