@@ -152,7 +152,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             animationCenter();
         }else{
             gsap.to(window, {
-                duration: 1,  // Animation duration in seconds
+                duration: 0.5,  // Animation duration in seconds
                 scrollTo: Math.max(0, window.scrollY + 100), // Scroll to 100px from the top
                 ease: "power2.out" // Easing function for smooth effect
             });
@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             animationCenter();
         }else{
             gsap.to(window, {
-                duration: 1,  // Animation duration in seconds
+                duration: 0.5,  // Animation duration in seconds
                 scrollTo: Math.max(0, window.scrollY - 100), // Scroll to 100px from the top
                 ease: "power2.out" // Easing function for smooth effect
             });
