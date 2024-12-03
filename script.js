@@ -177,16 +177,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     const myObserver = Observer.create({
         // target: window, // can be any element (selector text is fine)
-        type: "scroll", // comma-delimited list of what to listen for ("wheel,touch,scroll,pointer")
+        type: `${!isTouchDevice ? 'wheel' : 'scroll'}`, // comma-delimited list of what to listen for ("wheel,touch,scroll,pointer")
         wheelSpeed: 1,
         tolerance: 20,
         preventDefault: false,
         onUp: ({deltaY, velocityY}) => {
-            if(requestedLock && requestUp){
+            if(!isTouchDevice && requestedLock && requestUp){
                 if(velocityY > lastVelocity){
                     detectedDownVeloce = true;
                 }
-                if(detectedDownVeloce && velocityY < 3*lastVelocity && !animating){
+                if(detectedDownVeloce && velocityY < 2.5*lastVelocity && !animating){
                     showPreviousVariant();
                 }
                 lastVelocity = velocityY;
@@ -204,11 +204,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
         },
         onDown: ({deltaY, velocityY}) => {
             //console.log(parseInt(velocityY));
-            if(requestedLock && requestDown){
+            if(!isTouchDevice && requestedLock && requestDown){
                 if(velocityY < lastVelocity){
                     detectedDownVeloce = true;
                 }
-                if(detectedDownVeloce && velocityY > 3*lastVelocity && !animating){
+                if(detectedDownVeloce && velocityY > 2.5*lastVelocity && !animating){
                     showNextVariant();
                 }
                 lastVelocity = velocityY;
