@@ -135,6 +135,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });
     
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
+    //alert(isTouchDevice);
     const gestureArea = document.getElementById('process');
     const hammer = new Hammer(gestureArea);
     hammer.get('swipe').set({
@@ -185,7 +186,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 if(velocityY > lastVelocity){
                     detectedDownVeloce = true;
                 }
-                if(detectedDownVeloce && velocityY < 2.5*lastVelocity && !animating){
+                if(!isTouchDevice && detectedDownVeloce && velocityY < 2.5*lastVelocity && !animating){
                     showPreviousVariant();
                 }
                 lastVelocity = velocityY;
@@ -195,7 +196,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             //     animationCenter();
             // }
             if(locked && !endTop){
-                if(!animating){
+                if(!isTouchDevice && !animating){
                     showPreviousVariant();
                 }
                 animationCenter();
@@ -207,7 +208,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 if(velocityY < lastVelocity){
                     detectedDownVeloce = true;
                 }
-                if(detectedDownVeloce && velocityY > 2.5*lastVelocity && !animating){
+                if(!isTouchDevice && detectedDownVeloce && velocityY > 2.5*lastVelocity && !animating){
                     showNextVariant();
                 }
                 lastVelocity = velocityY;
@@ -217,7 +218,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             //     animationCenter();
             // }
             if(locked && !endDown){
-                if(!animating){
+                if(!isTouchDevice && !animating){
                     showNextVariant();
                 }
                 animationCenter();
