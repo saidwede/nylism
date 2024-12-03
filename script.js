@@ -177,7 +177,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     const myObserver = Observer.create({
         // target: window, // can be any element (selector text is fine)
-        type: "scroll", // comma-delimited list of what to listen for ("wheel,touch,scroll,pointer")
+        type: "wheel", // comma-delimited list of what to listen for ("wheel,touch,scroll,pointer")
         wheelSpeed: 1,
         tolerance: 20,
         preventDefault: false,
@@ -186,7 +186,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 if(velocityY > lastVelocity){
                     detectedDownVeloce = true;
                 }
-                if(!isTouchDevice && detectedDownVeloce && velocityY < 2*lastVelocity && !animating && !isLockCalled){
+                if(!isTouchDevice && detectedDownVeloce && velocityY < 2*lastVelocity && !animating){
                     showPreviousVariant();
                 }
                 lastVelocity = velocityY;
@@ -196,7 +196,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             //     animationCenter();
             // }
             if(locked && !endTop){
-                if(!isTouchDevice && !animating && !isLockCalled){
+                if(!isTouchDevice && !animating){
                     showPreviousVariant();
                 }
                 animationCenter();
@@ -208,7 +208,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 if(velocityY < lastVelocity){
                     detectedDownVeloce = true;
                 }
-                if(!isTouchDevice && detectedDownVeloce && velocityY > 2*lastVelocity && !animating && !isLockCalled){
+                if(!isTouchDevice && detectedDownVeloce && velocityY > 2*lastVelocity && !animating){
                     showNextVariant();
                 }
                 lastVelocity = velocityY;
@@ -218,7 +218,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             //     animationCenter();
             // }
             if(locked && !endDown){
-                if(!isTouchDevice && !animating && !isLockCalled){
+                if(!isTouchDevice && !animating){
                     showNextVariant();
                 }
                 animationCenter();
