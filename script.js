@@ -135,7 +135,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });
     
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
-    alert(isTouchDevice);
+    //alert(isTouchDevice);
     const gestureArea = document.getElementById('process');
     const hammer = new Hammer(gestureArea);
     hammer.get('swipe').set({
@@ -150,6 +150,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 showNextVariant();
             }
             animationCenter();
+        }else{
+            gsap.to(window, {
+                duration: 1,  // Animation duration in seconds
+                scrollTo: Math.max(0, window.scrollY + 100), // Scroll to 100px from the top
+                ease: "power2.out" // Easing function for smooth effect
+            });
         }
     });
     hammer.on('swipedown', () => {
@@ -159,6 +165,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 showPreviousVariant();
             }
             animationCenter();
+        }else{
+            gsap.to(window, {
+                duration: 1,  // Animation duration in seconds
+                scrollTo: Math.max(0, window.scrollY - 100), // Scroll to 100px from the top
+                ease: "power2.out" // Easing function for smooth effect
+            });
         }
     });
 
