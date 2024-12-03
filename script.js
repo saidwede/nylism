@@ -186,7 +186,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 if(velocityY > lastVelocity){
                     detectedDownVeloce = true;
                 }
-                if(!isTouchDevice && detectedDownVeloce && velocityY < 2.5*lastVelocity && !animating){
+                if(detectedDownVeloce && velocityY < 2.5*lastVelocity && !animating){
                     showPreviousVariant();
                 }
                 lastVelocity = velocityY;
@@ -196,7 +196,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             //     animationCenter();
             // }
             if(locked && !endTop){
-                if(!isTouchDevice && !animating){
+                if(!animating){
                     showPreviousVariant();
                 }
                 animationCenter();
@@ -208,7 +208,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 if(velocityY < lastVelocity){
                     detectedDownVeloce = true;
                 }
-                if(!isTouchDevice && detectedDownVeloce && velocityY > 2.5*lastVelocity && !animating){
+                if(detectedDownVeloce && velocityY > 2.5*lastVelocity && !animating){
                     showNextVariant();
                 }
                 lastVelocity = velocityY;
@@ -218,7 +218,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             //     animationCenter();
             // }
             if(locked && !endDown){
-                if(!isTouchDevice && !animating){
+                if(!animating){
                     showNextVariant();
                 }
                 animationCenter();
