@@ -152,8 +152,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
             animationCenter();
         }else{
             gsap.to(window, {
-                duration: 1,  // Animation duration in seconds
-                scrollTo: Math.max(0, window.scrollY + 300), // Scroll to 100px from the top
+                duration: 2,  // Animation duration in seconds
+                scrollTo: Math.max(0, window.scrollY + 700), // Scroll to 100px from the top
                 ease: "power2.out" // Easing function for smooth effect
             });
         }
@@ -167,8 +167,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
             animationCenter();
         }else{
             gsap.to(window, {
-                duration: 1,  // Animation duration in seconds
-                scrollTo: Math.max(0, window.scrollY - 300), // Scroll to 100px from the top
+                duration: 2,  // Animation duration in seconds
+                scrollTo: Math.max(0, window.scrollY - 700), // Scroll to 100px from the top
                 ease: "power4.out" // Easing function for smooth effect
             });
         }
