@@ -136,7 +136,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
     alert(isTouchDevice);
-    const gestureArea = document.getElementById('gesture-area');
+    const gestureArea = document.getElementById('process');
     const hammer = new Hammer(gestureArea);
     hammer.get('swipe').set({
         direction: Hammer.DIRECTION_VERTICAL, // Detect vertical swipes only
